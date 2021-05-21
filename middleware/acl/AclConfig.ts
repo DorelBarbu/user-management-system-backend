@@ -5,7 +5,7 @@
 
 export type resource = 'GET' | 'POST' | 'DELETE';
 
-interface RolePermission {
+export interface RolePermission {
   role: string;
   resources: resource[];
 }
