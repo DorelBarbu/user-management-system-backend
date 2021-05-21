@@ -10,7 +10,6 @@ export const requireAuth = (req: express.Request, res: express.Response, next: e
     return next();
   }
 
-  res.statusCode = 401;
-  res.send('UNAUTHORIZED');
+  res.status(401).json('UNAUTHORIZED');
 };
 

@@ -1,5 +1,5 @@
-import Acl from "../middleware/acl/Acl";
-import { AclConfig } from "../middleware/acl/AclConfig";
+import Acl from "../src/middleware/acl/Acl";
+import { AclConfig } from "../src/middleware/acl/AclConfig";
 
 const aclConfig: AclConfig[] = [
   {
