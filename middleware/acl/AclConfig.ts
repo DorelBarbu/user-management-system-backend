@@ -3,7 +3,7 @@
  * It is exported to be used in conjunction with the Acl module
  */
 
-export type resource = 'GET' | 'POST' | 'DELETE' | '*';
+export type resource = 'GET' | 'POST' | 'DELETE';
 
 interface RolePermission {
   role: string;

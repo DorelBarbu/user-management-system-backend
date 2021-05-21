@@ -5,13 +5,13 @@ export default class Acl {
     this.aclConfig = aclConfig;
   }
 
-  public can(route: string, resource: string, role: resource): boolean {
+  public can(route: string, resource: resource, role: string): boolean {
     return (
       this.aclConfig
         .find((config) => config.route === route)
         ?.rolePermissions.find(
           (permission) =>
-            permission.role === role && permission.resources.includes(role)
+            permission.role === role && permission.resources.includes(resource)
         ) !== undefined
     );
   }
