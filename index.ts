@@ -1,10 +1,10 @@
 import express from 'express';
-import { requireAuth } from './middleware/RequireAuth';
+import { requireAuth } from './src/middleware/RequireAuth';
 
 const app = express();
 const PORT = 8000;
 
-app.use(requireAuth)
+app.use(requireAuth);
 
 app.get("/", (req, res) => {
   res.send("Hello world");
