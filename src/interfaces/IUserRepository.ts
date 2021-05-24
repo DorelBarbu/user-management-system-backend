@@ -6,6 +6,6 @@ interface UserDAO {
 }
 
 interface IUserRepository {
-  getUserById(userId: string): Promise<UserDAO>;
-  getUserByEmail(userEmail: string): Promise<UserDAO>;
+  findUserById(userId: string): Promise<UserDAO>;
+  findUserByEmail(userEmail: string): Promise<UserDAO>;
 }
