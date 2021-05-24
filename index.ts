@@ -5,5 +5,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(8000, () => {
-  console.log("it works");
+  console.log('Application started on port: 8000');
 });

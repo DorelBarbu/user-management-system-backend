@@ -1,12 +1,9 @@
 import express from 'express';
+import { verifyTokenController } from '../controllers/auth';
 import { requireAuth } from '../middleware/RequireAuth';
 
 const auth = express.Router();
 
-auth.get('/verify', requireAuth, (req, res) => {
-  res.status(200).json({
-    message: 'it works'
-  });
-});
+auth.get('/verify', requireAuth, verifyTokenController);
 
 export default auth;
