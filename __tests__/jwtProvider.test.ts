@@ -1,23 +1,34 @@
-import { JwtStatus } from "../src/interfaces/IJwtProvider";
-import JwtProvider from "../src/services/JwtProvider";
+import { verify, sign } from "../src/services/JwtService";
 
+const jwtConfig = {
+  secret: "my secret",
+  expiresIn: 1,
+};
 
-test('Should correctly sign a token', () => {
-  const jwtProvider = new JwtProvider('my secret', 10);
-  const token = jwtProvider.sign({
-    id: '215125'
-  });
-  expect(jwtProvider.verify(token)).toBe(JwtStatus.VALID);
+test("Should correctly sign a token", () => {
+  const token = sign(
+    {
+      id: "215125",
+    },
+    jwtConfig
+  );
+
+  expect(() => {
+    verify(token, jwtConfig);
+  }).not.toThrow();
 });
 
-test("Should return INVALID when token is expired", done => {
-  const jwtProvider = new JwtProvider('my secret', 1);
-  const token = jwtProvider.sign({
-    id: '215125'
-  });
-
+test("Should return INVALID when token is expired", (done) => {
+  const token = sign(
+    {
+      id: "215125",
+    },
+    jwtConfig
+  );
   setTimeout(() => {
-    expect(jwtProvider.verify(token)).toBe(JwtStatus.INVALID);
+    expect(() => {
+      verify(token, jwtConfig)
+    }).toThrowError('jwt expired');
     done();
   }, 1001);
 });
