@@ -4,6 +4,6 @@ export interface JwtConfig {
 }
 
 export const jwtConfig: JwtConfig = {
-  secret: 'af882fn8n28n1c',
-  expiresIn: 60
+  secret: process.env.TOKEN_SECRET as string,
+  expiresIn: Number.parseInt(process.env.EXPIRES_IN as string)
 }
