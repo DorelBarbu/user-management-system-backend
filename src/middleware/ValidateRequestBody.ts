@@ -4,14 +4,16 @@
 
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
+import BadRequestError from "../errorHandling/BadRequestError";
 
 const validateRequest =
   (validationSchema: Joi.Schema) =>
   (req: Request, res: Response, next: NextFunction) => {
-    if (validationSchema.validate(req.body).error) {
-      return res.json({
-        message: "INVALID REQUEST",
-      });
+    const validationResult = validationSchema.validate(req.body);
+    if (validationResult.error) {
+      return res
+        .status(400)
+        .json(new BadRequestError(validationResult.error.message));
     }
     next();
   };
