@@ -11,9 +11,7 @@ const validateRequest =
   (req: Request, res: Response, next: NextFunction) => {
     const validationResult = validationSchema.validate(req.body);
     if (validationResult.error) {
-      return res
-        .status(400)
-        .json(new BadRequestError(validationResult.error.message));
+      next(new BadRequestError(validationResult.error.message));
     }
     next();
   };

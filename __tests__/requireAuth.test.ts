@@ -10,5 +10,5 @@ describe("Test the requireAuth middleware", () => {
   test("Should return 200 when the token is present", async () => {
     const response = await request(app).get('/auth/verify').set('authorization', 'Bearer 123');
     expect(response.status).toBe(200);
-  })
+  });
 })
