@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { OK_CODE } from "../../errorHandling/ResponseCodes";
 import { hashPassword } from "../../utils/hashPassword";
 import RegisterUserDTO from "./interfaces/RegisterUserDTO";
+import User from "./interfaces/User";
 import { registerUser } from "./UserService";
 
 const registerUserController = async (
@@ -10,18 +11,14 @@ const registerUserController = async (
   next: NextFunction
 ) => {
   try {
-    const response = await registerUser({
+    const registerUserResponse = await registerUser({
       ...req.body,
       password: hashPassword(req.body.password),
-    } as RegisterUserDTO);
-
-    res.status(OK_CODE).json({
-      id: response._id,
-      username: response.username,
-      email: response.email,
-      firstName: response.firstName,
-      lastName: response.lastName,
     });
+
+    registerUserResponse.password = '';
+
+    res.status(OK_CODE).json(registerUserResponse);
   } catch (e) {
     return next(e);
   }
@@ -33,4 +30,4 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export { loginUser, registerUser };
+export { loginUser, registerUserController };

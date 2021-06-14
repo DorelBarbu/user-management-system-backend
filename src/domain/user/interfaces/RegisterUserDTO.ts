@@ -1,9 +1,7 @@
-interface RegisterUserDTO {
-  username: string;
-  password?: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+import User from "./User";
+
+interface RegisterUserDTO extends User {
+  password: string;
 }
 
 export default RegisterUserDTO;
