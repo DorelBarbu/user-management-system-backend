@@ -1,4 +1,5 @@
 import RegisterUserDTO from "./interfaces/RegisterUserDTO";
+import User from "./interfaces/User";
 import UserModel from "./UserModel";
 
 export const insertUser = async (registerUserDto: RegisterUserDTO) => {
@@ -9,6 +10,21 @@ export const insertUser = async (registerUserDto: RegisterUserDTO) => {
 
 export const getByUsername = async (username: string) => {
   const user = await UserModel.find({ username });
+  return user;
+};
+
+export const getUserForLogin = async (username: string, password: string) => {
+  const user = await UserModel.find({
+    username,
+    password
+  });
+  return user;
+}
+
+export const getByUsernameOrEmail = async (username: string, email: string) => {
+  const user = await UserModel.findOne({
+    $or: [{ username }, { email }],
+  });
   return user;
 };
 

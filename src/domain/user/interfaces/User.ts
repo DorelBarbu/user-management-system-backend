@@ -1,7 +1,7 @@
-export default interface User {
+import LoginUserDTO from "./LoginUserDTO";
+
+export default interface User extends LoginUserDTO {
   email: string;
   firstName: string;
   lastName: string;
-  username: string;
-  password: string;
 }
