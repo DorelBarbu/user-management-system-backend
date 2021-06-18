@@ -9,12 +9,16 @@ export const insertUser = async (registerUserDto: RegisterUserDTO) => {
 };
 
 export const getByUsername = async (username: string) => {
-  const user = await UserModel.find({ username });
+  const user = await UserModel.findOne({ username });
   return user;
 };
 
 export const getUserForLogin = async (username: string, password: string) => {
-  const user = await UserModel.find({
+  console.log({
+    username,
+    password
+  });
+  const user = await UserModel.findOne({
     username,
     password
   });

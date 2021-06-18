@@ -1,4 +1,5 @@
-import { verify, sign } from "../src/services/JwtService";
+import { sign, verify } from "../src/services/JwtService";
+
 
 const jwtConfig = {
   secret: "my secret",

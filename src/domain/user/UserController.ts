@@ -1,9 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { OK_CODE } from "../../errorHandling/ResponseCodes";
 import { hashPassword } from "../../utils/hashPassword";
-import RegisterUserDTO from "./interfaces/RegisterUserDTO";
-import User from "./interfaces/User";
-import { registerUser } from "./UserService";
+import { registerUser, loginUser } from "./UserService";
 
 const registerUserController = async (
   req: Request,
@@ -25,10 +23,18 @@ const registerUserController = async (
   }
 };
 
-const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-  res.status(OK_CODE).json({
-    message: "log in route",
-  });
+const loginUserController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    console.log('HERE');
+    const loginResult = await loginUser({
+      username: req.body.username,
+      password: req.body.password
+    });
+    console.log(loginResult);
+    //res.status(OK_CODE).json(loginResult);
+  } catch(e) {
+    next(e);
+  }
 };
 
-export { loginUser, registerUserController };
+export { loginUserController, registerUserController };
