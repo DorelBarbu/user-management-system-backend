@@ -1,14 +1,21 @@
 import ApplicationError from "../../errorHandling/ApplicationError";
-import { USERNAME_OR_PASSWORD_INCORRECT, USER_ALREADY_EXISTS } from "../../errorHandling/ErrorMessages";
-import { RESOURCE_ALREADY_EXISTS_CODE, UNAUTHORIZED_CODE } from "../../errorHandling/ResponseCodes";
-import { comparePasswords, hashPassword } from "../../utils/hashPassword";
+import {
+  USERNAME_OR_PASSWORD_INCORRECT,
+  USER_ALREADY_EXISTS,
+} from "../../errorHandling/ErrorMessages";
+import {
+  RESOURCE_ALREADY_EXISTS_CODE,
+  UNAUTHORIZED_CODE,
+} from "../../errorHandling/ResponseCodes";
+import { comparePasswords } from "../../utils/hashPassword";
 import LoginUserDTO from "./interfaces/LoginUserDTO";
 import RegisterUserDTO from "./interfaces/RegisterUserDTO";
-import { sign } from '../../services/JwtService';
-import insertUser, {
+import { sign } from "../JwtService";
+import {
+  insertUser,
   getByUsername,
-  getByUsernameOrEmail
-} from "./UserRepository";
+  getByUsernameOrEmail,
+} from "../../domain/user/UserRepository";
 import { jwtConfig } from "../../config/jwt.config";
 
 export const registerUser = async (registerUserDto: RegisterUserDTO) => {
@@ -29,14 +36,19 @@ export const registerUser = async (registerUserDto: RegisterUserDTO) => {
 
 export const loginUser = async (loginUser: LoginUserDTO) => {
   const existingUser = await getByUsername(loginUser.username);
-  console.log(existingUser);
-  if(existingUser && comparePasswords(loginUser.password, existingUser.password)) {
-    console.log(comparePasswords(loginUser.password, existingUser.password));
-    console.log(sign(existingUser, jwtConfig));
+  if (
+    existingUser &&
+    comparePasswords(loginUser.password, existingUser.password)
+  ) {
     return {
-      existingUser,
-      token: sign(existingUser, jwtConfig)
-    }
+      user: existingUser,
+      token: sign(
+        {
+          id: existingUser._id,
+        },
+        jwtConfig
+      ),
+    };
   }
 
   throw new ApplicationError(
