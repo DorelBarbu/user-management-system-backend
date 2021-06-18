@@ -41,7 +41,12 @@ export const loginUser = async (loginUser: LoginUserDTO) => {
     comparePasswords(loginUser.password, existingUser.password)
   ) {
     return {
-      user: existingUser,
+      user: {
+        username: existingUser.username,
+        email: existingUser.email,
+        firstName: existingUser.firstName,
+        lastName: existingUser.lastName
+      },
       token: sign(
         {
           id: existingUser._id,
