@@ -15,7 +15,7 @@ user.post(
   registerUserController
 );
 
-user.get(
+user.post(
   "/login",
   validateRequest(loginUserRequestSchema),
   loginUserController
