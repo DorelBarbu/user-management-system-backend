@@ -1,4 +1,5 @@
 import app from "./src/app";
+import { getPermissionsByName } from "./src/domain/permission/PermissionRepository";
 import initalizeDatabase from "./src/loaders/db";
 
 app.get("/", (req, res) => {
@@ -8,4 +9,5 @@ app.get("/", (req, res) => {
 app.listen(8000, async () => {
   await initalizeDatabase();
   console.log('Application started');
+  console.log(await getPermissionsByName(['LOGIN', 'VIEW_USERS']));
 });
