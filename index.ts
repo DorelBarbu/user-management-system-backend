@@ -1,5 +1,4 @@
 import app from "./src/app";
-import { getByUsernameOrEmail } from "./src/domain/user/UserRepository";
 import initalizeDatabase from "./src/loaders/db";
 
 app.get("/", (req, res) => {

@@ -18,6 +18,7 @@ const registerUserController = async (
 
     res.status(OK_CODE).json(registerUserResponse);
   } catch (e) {
+    console.log('error here');
     return next(e);
   }
 };

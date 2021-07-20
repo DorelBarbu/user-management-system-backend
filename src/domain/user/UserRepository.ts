@@ -14,10 +14,6 @@ export const getByUsername = async (username: string) => {
 };
 
 export const getUserForLogin = async (username: string, password: string) => {
-  console.log({
-    username,
-    password
-  });
   const user = await UserModel.findOne({
     username,
     password
