@@ -5,7 +5,7 @@ import {
   OK_CODE,
   RESOURCE_ALREADY_EXISTS_CODE,
 } from "../../errorHandling/ResponseCodes";
-import { insertRole } from "./RoleRepository";
+import { insertRole } from "./RoleService";
 
 export const insertRoleController = async (
   req: Request,
@@ -16,15 +16,6 @@ export const insertRoleController = async (
     const insertedRole = await insertRole({ ...req.body });
     res.status(OK_CODE).json(insertedRole);
   } catch (e) {
-    if (e.name === "MongoError" && e.code === DUPLICATE_KEY_CODE) {
-      return next(
-        new ApplicationError(
-          "Duplicate record in the database",
-          RESOURCE_ALREADY_EXISTS_CODE,
-          true
-        )
-      );
-    }
     return next(e);
   }
 };

@@ -9,5 +9,4 @@ app.get("/", (req, res) => {
 app.listen(8000, async () => {
   await initalizeDatabase();
   console.log('Application started');
-  console.log(await getPermissionsByName(['LOGIN', 'VIEW_USERS']));
 });
