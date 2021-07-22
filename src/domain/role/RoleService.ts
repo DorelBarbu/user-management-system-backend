@@ -2,6 +2,7 @@ import ApplicationError from "../../errorHandling/ApplicationError";
 import BadRequestError from "../../errorHandling/BadRequestError";
 import { getPermissionsByName } from "../permission/PermissionRepository";
 import RoleModel from "./RoleModel";
+import { getAllRoles } from "./RoleRepository";
 
 interface InsertRoleDTO {
   name: string;
@@ -9,21 +10,18 @@ interface InsertRoleDTO {
 }
 
 /**
- * This function inserts a new role into the database, by checking
- * if the mentioned permissions exist in the database.
- * If we try to insert a permission that is not in the database,
- * an ApplicationError will be thrown
+ * This function inserts a new role into the database
  * @param roleDTO - information about the new role
  */
 export const insertRole = async (roleDTO: InsertRoleDTO) => {
-  const exsitingPermissions = await getPermissionsByName(roleDTO.permissions);
-  // roleDTO.permissions.forEach(permission => {
-  //     if(!exsitingPermissions.find(exsitingPermission => permission === exsitingPermission.name)) {
-  //       throw new BadRequestError('Invalid permissions');
-  //     }
-  // });
-
+  const isRoleValid = await validateRole(roleDTO.name);
+  
   const newRole = await new RoleModel(roleDTO).save();
 
   return newRole;
 };
+
+export const validateRole = async (roleName: string): Promise<boolean> => {
+  const roles = await getAllRoles();
+  return !!roles.find(role => role.name === roleName);
+}

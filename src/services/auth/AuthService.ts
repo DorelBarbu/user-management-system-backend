@@ -17,12 +17,14 @@ import {
   getByUsernameOrEmail,
 } from "../../domain/user/UserRepository";
 import { jwtConfig } from "../../config/jwt.config";
+import { validateRole } from "../../domain/role/RoleService";
 
 export const registerUser = async (registerUserDto: RegisterUserDTO) => {
-  const existingUser = await getByUsernameOrEmail(
-    registerUserDto.username,
-    registerUserDto.email
-  );
+  const isRoleValid = await validateRole(registerUserDto.role)
+  if(!isRoleValid) {
+    throw new ApplicationError('Invalid role', 500, true);
+  }
+  
   const response = await insertUser(registerUserDto);
   return response;
 };
@@ -47,11 +49,12 @@ export const loginUser = async (loginUser: LoginUserDTO) => {
         jwtConfig
       ),
     };
+  } else {
+    throw new ApplicationError(
+      USERNAME_OR_PASSWORD_INCORRECT,
+      UNAUTHORIZED_CODE,
+      true
+    );  
   }
 
-  throw new ApplicationError(
-    USERNAME_OR_PASSWORD_INCORRECT,
-    UNAUTHORIZED_CODE,
-    true
-  );
 };

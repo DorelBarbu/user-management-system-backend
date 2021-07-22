@@ -1,7 +1,6 @@
 import { Schema, Model, Document, model } from "mongoose";
 
 import User from './interfaces/User';
-import { UserRoles } from "../../middleware/acl/UserRoles";
 import { UserPermissions } from "../../middleware/acl/UserPermissions";
 
 export interface IUser extends Document, User {};
@@ -31,7 +30,6 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: UserRoles,
     required: true
   },
   permissions: {

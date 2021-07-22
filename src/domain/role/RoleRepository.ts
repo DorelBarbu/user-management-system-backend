@@ -17,3 +17,8 @@ export const getRoleByName = async(name: string) => {
   });
   return role;
 }
+
+export const getAllRoles = async () => {
+  const roles = await RoleModel.find();
+  return roles;
+}

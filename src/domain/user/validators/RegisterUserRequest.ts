@@ -1,6 +1,4 @@
 import Joi from 'joi';
-import UserModel from '../UserModel';
-import { UserRoles } from '../../../middleware/acl/UserRoles';
 import enumToArray from '../../../utils/enumToArray';
 import { UserPermissions } from '../../../middleware/acl/UserPermissions';
 
@@ -10,7 +8,7 @@ const registerUserRequestSchema = Joi.object({
   email: Joi.string().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  role: Joi.string().valid(...enumToArray(UserRoles)).required(),
+  role: Joi.string().required(),
   permissions: Joi.array().items(Joi.string().valid(...enumToArray(UserPermissions)))
 });
 
