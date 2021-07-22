@@ -3,26 +3,47 @@
  * It is exported to be used in conjunction with the Acl module
  */
 
-export type resource = 'GET' | 'POST' | 'DELETE';
+import { UserPermissions } from "./UserPermissions";
 
-export interface RolePermission {
-  role: string;
-  resources: resource[];
+export type verb = "GET" | "POST" | "DELETE" | "PUT";
+
+type RouteConfig = {
+  [key: string]: UserPermissions[];
+};
+
+interface AclConfig {
+  [key: string]: RouteConfig;
 }
 
-export interface AclConfig {
-  route: string;
-  rolePermissions: RolePermission[];
-}
-
-export const aclConfig: AclConfig[] = [
-  {
-    route: "/",
-    rolePermissions: [
-      {
-        role: "admin",
-        resources: ["GET", "POST", "DELETE"],
-      },
-    ],
+const aclConfig: AclConfig = {
+  "/role": {
+    POST: [UserPermissions.CREATE_ROLES, UserPermissions.CREATE_USERS],
   },
-];
+};
+
+class Acl {
+  constructor(private config: AclConfig) {}
+
+  getRequiredPermissions(path: string, verb: string): UserPermissions[] {
+    return this.config[path]?.[verb];
+  }
+
+  can(path: string, verb: string, permissionSet: Set<UserPermissions>) : boolean {
+    const requiredPermissions = this.getRequiredPermissions(path, verb);
+
+    if(requiredPermissions.length === 0) {
+      return true;
+    }
+
+    for(let permission of requiredPermissions) {
+      if(!permissionSet.has(permission)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+}
+
+
+export default new Acl(aclConfig);

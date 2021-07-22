@@ -2,13 +2,15 @@ import { Schema, Model, Document, model } from "mongoose";
 
 import User from './interfaces/User';
 import { UserRoles } from "../../middleware/acl/UserRoles";
+import { UserPermissions } from "../../middleware/acl/UserPermissions";
 
-interface IUser extends Document, User {};
+export interface IUser extends Document, User {};
 
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -24,12 +26,19 @@ const userSchema = new Schema({
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   role: {
     type: String,
     enum: UserRoles,
     required: true
+  },
+  permissions: {
+    type: [{
+      type: String,
+      enum: UserPermissions
+    }]
   }
 });
 

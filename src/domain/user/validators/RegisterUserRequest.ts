@@ -11,7 +11,8 @@ const registerUserRequestSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   role: Joi.string().valid(...enumToArray(UserRoles)).required(),
-  permissions: Joi.array().items(Joi.string())
+  permissions: Joi.array().items(Joi.string().valid(...enumToArray(UserPermissions)))
 });
+
 
 export default registerUserRequestSchema;

@@ -23,13 +23,6 @@ export const registerUser = async (registerUserDto: RegisterUserDTO) => {
     registerUserDto.username,
     registerUserDto.email
   );
-  if (existingUser) {
-    throw new ApplicationError(
-      USER_ALREADY_EXISTS,
-      RESOURCE_ALREADY_EXISTS_CODE,
-      true
-    );
-  }
   const response = await insertUser(registerUserDto);
   return response;
 };

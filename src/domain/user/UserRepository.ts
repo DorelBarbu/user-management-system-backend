@@ -13,6 +13,11 @@ export const getByUsername = async (username: string) => {
   return user;
 };
 
+export const getUserById = async (userId: string) => {
+  const user = await UserModel.findById(userId);
+  return user;
+};
+
 export const getUserForLogin = async (username: string, password: string) => {
   const user = await UserModel.findOne({
     username,

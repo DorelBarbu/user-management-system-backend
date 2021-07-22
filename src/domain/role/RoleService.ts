@@ -17,11 +17,11 @@ interface InsertRoleDTO {
  */
 export const insertRole = async (roleDTO: InsertRoleDTO) => {
   const exsitingPermissions = await getPermissionsByName(roleDTO.permissions);
-  roleDTO.permissions.forEach(permission => {
-      if(!exsitingPermissions.find(exsitingPermission => permission === exsitingPermission.name)) {
-        throw new BadRequestError('Invalid permissions');
-      }
-  });
+  // roleDTO.permissions.forEach(permission => {
+  //     if(!exsitingPermissions.find(exsitingPermission => permission === exsitingPermission.name)) {
+  //       throw new BadRequestError('Invalid permissions');
+  //     }
+  // });
 
   const newRole = await new RoleModel(roleDTO).save();
 

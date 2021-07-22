@@ -10,3 +10,10 @@ export const insertRole = async (roleDTO: InsertRoleDTO) => {
   await newRole.save();
   return newRole;
 };
+
+export const getRoleByName = async(name: string) => {
+  const role = await RoleModel.findOne({
+    name
+  });
+  return role;
+}

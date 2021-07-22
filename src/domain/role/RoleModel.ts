@@ -1,8 +1,9 @@
 import { Schema, Model, model } from "mongoose";
+import { UserPermissions } from "../../middleware/acl/UserPermissions";
 
-interface IRoleModel {
+export interface IRoleModel {
   name: string;
-  permissions: string[];
+  permissions: UserPermissions[];
 }
 
 const roleSchema = new Schema({
@@ -12,8 +13,10 @@ const roleSchema = new Schema({
     unique: true
   },
   permissions: {
-    type: [String],
-    required: true
+    type: [{
+      type: String,
+      enum: UserPermissions
+    }]
   }
 });
 
