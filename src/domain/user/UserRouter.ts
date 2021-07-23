@@ -2,10 +2,10 @@ import { Router } from "express";
 import {
   registerUserController,
   loginUserController,
-} from "../services/auth/AuthController";
-import loginUserRequestSchema from "../domain/user/validators/LoginUserRequest";
-import registerUserRequestSchema from "../domain/user/validators/RegisterUserRequest";
-import validateRequest from "../middleware/ValidateRequestBody";
+} from "../../services/auth/AuthController";
+import loginUserRequestSchema from "./validators/LoginUserRequest";
+import registerUserRequestSchema from "./validators/RegisterUserRequest";
+import validateRequest from "../../middleware/ValidateRequestBody";
 
 const user = Router();
 
