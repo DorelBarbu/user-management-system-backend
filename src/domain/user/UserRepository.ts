@@ -33,4 +33,10 @@ export const getByUsernameOrEmail = async (username: string, email: string) => {
   return user;
 };
 
+export const getAllUsers = async() => { 
+  const users = await UserModel.find({});
+  return users;
+}
+
+
 export default insertUser;

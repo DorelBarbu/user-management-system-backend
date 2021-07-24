@@ -19,6 +19,9 @@ const aclConfig: AclConfig = {
   "/role": {
     POST: [UserPermissions.CREATE_ROLES, UserPermissions.CREATE_USERS],
   },
+  "/user": {
+    GET: [UserPermissions.VIEW_USERS]
+  }
 };
 
 class Acl {

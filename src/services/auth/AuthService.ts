@@ -18,13 +18,16 @@ import {
 } from "../../domain/user/UserRepository";
 import { jwtConfig } from "../../config/jwt.config";
 import { validateRole } from "../../domain/role/RoleService";
+import { getRoleByName } from "../../domain/role/RoleRepository";
+import { computePermissionSet } from "../../middleware/acl/Acl";
+import InternalServerError from "../../errorHandling/InternalServerError";
 
 export const registerUser = async (registerUserDto: RegisterUserDTO) => {
-  const isRoleValid = await validateRole(registerUserDto.role)
-  if(!isRoleValid) {
-    throw new ApplicationError('Invalid role', 500, true);
+  const isRoleValid = await validateRole(registerUserDto.role);
+  if (!isRoleValid) {
+    throw new ApplicationError("Invalid role", 500, true);
   }
-  
+
   const response = await insertUser(registerUserDto);
   return response;
 };
@@ -35,13 +38,14 @@ export const loginUser = async (loginUser: LoginUserDTO) => {
     existingUser &&
     comparePasswords(loginUser.password, existingUser.password)
   ) {
+    const role = await getRoleByName(existingUser.role);
+    if (!role) {
+      throw new InternalServerError();
+    }
     return {
-      user: {
-        username: existingUser.username,
-        email: existingUser.email,
-        firstName: existingUser.firstName,
-        lastName: existingUser.lastName
-      },
+      user: existingUser,
+      role,
+      permissions: Array.from(computePermissionSet(existingUser, role)),
       token: sign(
         {
           id: existingUser._id,
@@ -54,7 +58,6 @@ export const loginUser = async (loginUser: LoginUserDTO) => {
       USERNAME_OR_PASSWORD_INCORRECT,
       UNAUTHORIZED_CODE,
       true
-    );  
+    );
   }
-
 };

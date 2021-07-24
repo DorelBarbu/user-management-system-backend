@@ -31,6 +31,7 @@ export const requireAuth = async (
     if(user) {
       const role = await getRoleByName(user.role);
       req.userId = decodedToken.id;
+      user.password = '';
       req.user = user;
       if(role) {
         req.role = role;

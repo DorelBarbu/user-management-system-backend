@@ -1,5 +1,5 @@
 import express from 'express';
-import { acl } from '../../middleware/acl/acl';
+import { acl } from '../../middleware/acl/Acl';
 import { requireAuth } from '../../middleware/RequireAuth';
 import validateRequest from '../../middleware/ValidateRequestBody';
 import { insertRoleController } from './RoleController';

@@ -17,7 +17,7 @@ import ForbiddenError from "../../errorHandling/ForbiddenError";
  * @param role 
  * @returns Set<UserPermissions>
  */
-const computePermissionSet = (user: IUser, role: IRoleModel): Set<UserPermissions> => {
+export const computePermissionSet = (user: IUser, role: IRoleModel): Set<UserPermissions> => {
   const permissionSet = new Set(user.permissions);
   role.permissions.forEach(permission => permissionSet.add(permission));
   return permissionSet;
@@ -35,8 +35,6 @@ export const acl = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const permissionSetForCurrentUser = computePermissionSet(user, role);
-  console.log(permissionSetForCurrentUser);
-  console.log(user);
   if(!aclModule.can(req.originalUrl, req.method, permissionSetForCurrentUser)) {
     next(new ForbiddenError());
   }

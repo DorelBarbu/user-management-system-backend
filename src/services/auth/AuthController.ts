@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { jwtConfig } from "../../config/jwt.config";
 import { OK_CODE } from "../../errorHandling/ResponseCodes";
 import UnauthorizedError from "../../errorHandling/UnauthorizedError";
+import { computePermissionSet } from "../../middleware/acl/Acl";
 import { getToken } from "../../middleware/RequireAuth";
 import { hashPassword } from "../../utils/hashPassword";
 import { verify } from "../JwtService";
@@ -47,6 +48,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   res.status(OK_CODE).json({
     role,
     user,
+    permissions: Array.from(computePermissionSet(user, role))
   });
 };
 
