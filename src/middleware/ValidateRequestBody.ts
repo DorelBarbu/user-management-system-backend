@@ -11,9 +11,9 @@ const validateRequest =
   (req: Request, res: Response, next: NextFunction) => {
     const validationResult = validationSchema.validate(req.body);
     if (validationResult.error) {
-      next(new BadRequestError(validationResult.error.message));
+      return next(new BadRequestError(validationResult.error.message));
     }
-    next();
+    return next();
   };
 
 export default validateRequest;

@@ -21,6 +21,8 @@ import { validateRole } from "../../domain/role/RoleService";
 import { getRoleByName } from "../../domain/role/RoleRepository";
 import { computePermissionSet } from "../../middleware/acl/Acl";
 import InternalServerError from "../../errorHandling/InternalServerError";
+import { UserPermissions } from "../../middleware/acl/UserPermissions";
+import ForbiddenError from "../../errorHandling/ForbiddenError";
 
 export const registerUser = async (registerUserDto: RegisterUserDTO) => {
   const isRoleValid = await validateRole(registerUserDto.role);
@@ -42,10 +44,15 @@ export const loginUser = async (loginUser: LoginUserDTO) => {
     if (!role) {
       throw new InternalServerError();
     }
+    const permissions = Array.from(computePermissionSet(existingUser, role)) as string[];
+    //If the user doesn't have the permission to login
+    if(permissions.indexOf(UserPermissions.LOGIN) === -1) {
+      throw new ForbiddenError();
+    }
     return {
       user: existingUser,
       role,
-      permissions: Array.from(computePermissionSet(existingUser, role)),
+      permissions,
       token: sign(
         {
           id: existingUser._id,

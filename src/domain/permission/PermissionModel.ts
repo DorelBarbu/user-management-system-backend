@@ -1,6 +1,6 @@
 import { Schema, model, Model } from "mongoose";
 
-interface IPermission {
+export interface IPermission {
   name: string;
 }
 

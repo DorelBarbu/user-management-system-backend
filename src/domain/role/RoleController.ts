@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import ApplicationError from "../../errorHandling/ApplicationError";
-import { DUPLICATE_KEY_CODE } from "../../errorHandling/MongoErrorCodes";
 import {
   OK_CODE,
-  RESOURCE_ALREADY_EXISTS_CODE,
 } from "../../errorHandling/ResponseCodes";
+
 import { insertRole } from "./RoleService";
+import * as RoleRepository from './RoleRepository';
 
 export const insertRoleController = async (
   req: Request,
@@ -19,3 +18,12 @@ export const insertRoleController = async (
     return next(e);
   }
 };
+
+export const getAllRoles = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const roles = await RoleRepository.getAllRoles();
+    res.status(OK_CODE).json(roles);
+  } catch(e) {
+    return next(e);
+  }
+}

@@ -17,10 +17,17 @@ interface AclConfig {
 
 const aclConfig: AclConfig = {
   "/role": {
-    POST: [UserPermissions.CREATE_ROLES, UserPermissions.CREATE_USERS],
+    POST: [UserPermissions.CREATE_ROLES],
+    GET: [UserPermissions.CREATE_ROLES]
   },
   "/user": {
     GET: [UserPermissions.VIEW_USERS]
+  },
+  "/user/register": {
+    POST: [UserPermissions.CREATE_USERS]
+  },
+  "/permission": {
+    GET: [UserPermissions.CREATE_ROLES, UserPermissions.CREATE_USERS]
   }
 };
 
@@ -28,7 +35,10 @@ class Acl {
   constructor(private config: AclConfig) {}
 
   getRequiredPermissions(path: string, verb: string): UserPermissions[] {
-    return this.config[path]?.[verb];
+    if(this.config[path]) {
+      return this.config[path][verb];
+    }
+    return [];
   }
 
   can(path: string, verb: string, permissionSet: Set<UserPermissions>) : boolean {

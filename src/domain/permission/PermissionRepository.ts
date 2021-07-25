@@ -9,3 +9,8 @@ export const getPermissionsByName = async (permissionNames: string[]) => {
 
   return permissions;
 };
+
+export const getAllPermissions = async () => {
+  const permissions = await PermissionModel.find();
+  return permissions;
+}
