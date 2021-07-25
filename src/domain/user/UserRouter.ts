@@ -14,8 +14,8 @@ const user = Router();
 
 user.post(
   "/register",
-  // requireAuth,
-  // acl,
+  requireAuth,
+  acl,
   validateRequest(registerUserRequestSchema),
   registerUserController
 );
