@@ -28,6 +28,10 @@ const aclConfig: AclConfig = {
   },
   "/permission": {
     GET: [UserPermissions.CREATE_ROLES, UserPermissions.CREATE_USERS]
+  },
+  "/company": {
+    GET: [UserPermissions.VIEW_COMPANY],
+    POST: [UserPermissions.CREATE_COMPANY]
   }
 };
 

@@ -9,6 +9,7 @@ import errorHandler from './middleware/ErrorHandler';
 import roleRouter from './domain/role/RoleRouter';
 import authRouter from "./services/auth/AuthRouter";
 import permissionRouter from './domain/permission/PermissionRouter';
+import companyRouter from './domain/company/CompanyRouter';
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use('/user', user);
 app.use('/role', roleRouter);
 app.use('/auth', authRouter);
 app.use('/permission', permissionRouter);
+app.use('/company', companyRouter);
 
 app.use(errorHandler);
 
